@@ -62,7 +62,7 @@ func main() {
 		NoteJumpSpeed  int            `json:"_noteJumpSpeed"`
 		Shuffle        int            `json:"_shuffle"`
 		ShufflePeriod  float64        `json:"_shufflePeriod"`
-		Events         []beatmapEvent `json:"-"`
+		Events         []beatmapEvent `json:"_events"`
 		Notes          []struct {
 			Time         float32 `json:"_time"`
 			LineIndex    int     `json:"_lineIndex"`
@@ -82,6 +82,7 @@ func main() {
 	var bm beatmap
 
 	json.Unmarshal(data, &bm)
+	bm.Events = nil
 
 	for i := 0; i < len(bm.Notes); i++ {
 		var eV int
