@@ -1,3 +1,5 @@
+//go:generate goversioninfo -icon=lightmap.ico -manifest=versioninfo.json
+
 package main
 
 import (
