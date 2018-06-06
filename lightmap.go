@@ -57,7 +57,7 @@ func main() {
 
 	type beatmap struct {
 		Version        string         `json:"_version"`
-		BeatsPerMinute int            `json:"_beatsPerMinute"`
+		BeatsPerMinute float64        `json:"_beatsPerMinute"`
 		BeatsPerBar    int            `json:"_beatsPerBar"`
 		NoteJumpSpeed  int            `json:"_noteJumpSpeed"`
 		Shuffle        int            `json:"_shuffle"`
