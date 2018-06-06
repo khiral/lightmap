@@ -1,4 +1,4 @@
-//go:generate goversioninfo -icon=lightmap.ico -manifest=versioninfo.json
+//go:generate goversioninfo -icon=lightmap.ico
 
 package main
 
