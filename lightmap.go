@@ -50,7 +50,7 @@ func main() {
 	}
 
 	type beatmapEvent struct {
-		Time  float32 `json:"_time"`
+		Time  float64 `json:"_time"`
 		Type  int     `json:"_type"`
 		Value int     `json:"_value"`
 	}
@@ -64,14 +64,14 @@ func main() {
 		ShufflePeriod  float64        `json:"_shufflePeriod"`
 		Events         []beatmapEvent `json:"_events"`
 		Notes          []struct {
-			Time         float32 `json:"_time"`
+			Time         float64 `json:"_time"`
 			LineIndex    int     `json:"_lineIndex"`
 			LineLayer    int     `json:"_lineLayer"`
 			Type         int     `json:"_type"`
 			CutDirection int     `json:"_cutDirection"`
 		} `json:"_notes"`
 		Obstacles []struct {
-			Time      int     `json:"_time"`
+			Time      float64 `json:"_time"`
 			LineIndex int     `json:"_lineIndex"`
 			Type      int     `json:"_type"`
 			Duration  float64 `json:"_duration"`
