@@ -8,3 +8,6 @@ Windows allows you to drop the .json beatmap onto the .exe file.  Linux/Mac you'
 Renames the original `beatmap.json` file to `beatmap_OLD.json` and outputs the new file as `beatmap.json` in the same location as the binary.
 
 It's not clever, I suppose maybe it'll get more complex as time goes on and more people start to use it.  I might even make a UI for it (HAH !)
+
+Youtube video:
+[![Lightmap Video](https://img.youtube.com/vi/MVatdcy7TPA/0.jpg)](https://www.youtube.com/watch?v=MVatdcy7TPA)
