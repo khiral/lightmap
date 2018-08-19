@@ -54,16 +54,16 @@ namespace LightMap
 
         public List<BeatMapEvent> GenerateBeatMapEvents(BeatMap beatMap)
         {
-            List<BeatMapEvent> beatMapEvents = new List<BeatMapEvent>(beatMap.Events);
+            List<BeatMapEvent> beatMapEvents = new List<BeatMapEvent>();
             
             if (settings.bigLights)
             {
-                CreateBigLights(beatMap.Notes, beatMapEvents);
+                CreateBigLights(beatMap, beatMapEvents);
             }
 
             if (settings.noteConvert)
             {
-                ConvertNotes(beatMap.Notes, beatMapEvents);
+                ConvertNotes(beatMap, beatMapEvents);
             }
 
             SetLaserSpeed(beatMapEvents);
@@ -77,15 +77,12 @@ namespace LightMap
             beatMapEvents.Add(new BeatMapEvent(0, 13, settings.laserSpeed));
         }
 
-
-        private void CreateBigLights(IEnumerable<BeatMapNote> notes, List<BeatMapEvent> beatMapEvents)
+        private void CreateBigLights(BeatMap beatMap, List<BeatMapEvent> outputEvents)
         {
-            double songLength = notes.Max(note => note.Time);
-            double? marker = FindMarker(beatMapEvents);
+            double songLength = beatMap.Notes.Max(note => note.Time);
+            double? marker = FindMarker(beatMap.Events);
             if (!marker.HasValue)
                 return;
-
-            beatMapEvents.Clear();
 
             bool flipFlop = true;
             for (double songIndex = marker.Value; songIndex <= songLength; songIndex += settings.spawnSpeed)
@@ -94,45 +91,39 @@ namespace LightMap
                 {
                     // End of song, fade out lights
                     if (flipFlop)
-                        beatMapEvents.Add(new BeatMapEvent(songIndex, 1, 7));
+                        outputEvents.Add(new BeatMapEvent(songIndex, 1, 7));
                     else
-                        beatMapEvents.Add(new BeatMapEvent(songIndex, 1, 3));
+                        outputEvents.Add(new BeatMapEvent(songIndex, 1, 3));
                 }
                 else
                 {
                     if (flipFlop)
                     {
-                        beatMapEvents.Add(new BeatMapEvent(songIndex, 1, 5));
-                        if (settings.bigLightFade)
-                        {
-                            if (songIndex -1 >= 0)
-                                beatMapEvents.Add(new BeatMapEvent(songIndex - 1, 1, 3));
-                        }
-                            
+                        outputEvents.Add(new BeatMapEvent(songIndex, 1, 5));
+                        if (settings.bigLightFade && songIndex >= 1)
+                            outputEvents.Add(new BeatMapEvent(songIndex - 1, 1, 3));
                     }
                     else
                     {
-                        beatMapEvents.Add(new BeatMapEvent(songIndex, 1, 1));
-                        if (settings.bigLightFade) { 
-                            if (songIndex -1 >= 0)
-                                beatMapEvents.Add(new BeatMapEvent(songIndex - 1, 1, 7));
-                        }
+                        outputEvents.Add(new BeatMapEvent(songIndex, 1, 1));
+                        if (settings.bigLightFade && songIndex >= 1)
+                            outputEvents.Add(new BeatMapEvent(songIndex - 1, 1, 7));
                     }
                 }
 
                 flipFlop = !flipFlop;
                 if (settings.ringSpins)
-                    beatMapEvents.Add(new BeatMapEvent(songIndex, 8, 0));
+                    outputEvents.Add(new BeatMapEvent(songIndex, 8, 0));
             }
         }
 
-        private double? FindMarker(List<BeatMapEvent> beatMapEvents)
+        private double? FindMarker(IEnumerable<BeatMapEvent> inputEvents)
         {
-            if (beatMapEvents == null || beatMapEvents.Count == 0)
+            if (inputEvents == null)
                 return null;
 
             var eventTimes = new List<double>();
-            foreach (var beatMapEvent in beatMapEvents)
+            foreach (var beatMapEvent in inputEvents)
             {
                 if (beatMapEvent.Value == 0)
                     eventTimes.Add(beatMapEvent.Time);
@@ -173,12 +164,12 @@ namespace LightMap
             return result;
         }
 
-        private void ConvertNotes(IEnumerable<BeatMapNote> notes, List<BeatMapEvent> beatMapEvents)
+        private void ConvertNotes(BeatMap beatMap, List<BeatMapEvent> outputEvents)
         {
-            foreach (var note in notes)
+            foreach (var note in beatMap.Notes)
             {
                 var tuple = CreateEvent(note.CutDirection, note.LineIndex);
-                beatMapEvents.Add(new BeatMapEvent(note.Time, tuple.Item1, tuple.Item2));
+                outputEvents.Add(new BeatMapEvent(note.Time, tuple.Item1, tuple.Item2));
             }
         }
 
