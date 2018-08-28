@@ -240,6 +240,7 @@ namespace LightMap
         {
             LightMapMagic awesomeSauce = new LightMapMagic(settings);
             awesomeSauce.GenerateBeatMapEvents(selectJSONName.Text.TrimEnd());
+            MessageBox.Show("Done !");
         }
 
         private void LightMap_DragEnter(object sender, DragEventArgs e)

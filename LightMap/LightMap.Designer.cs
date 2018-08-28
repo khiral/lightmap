@@ -57,20 +57,21 @@
             // 
             // selectJsonButton
             // 
+            this.selectJsonButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.selectJsonButton.Location = new System.Drawing.Point(21, 23);
             this.selectJsonButton.Name = "selectJsonButton";
-            this.selectJsonButton.Size = new System.Drawing.Size(95, 23);
+            this.selectJsonButton.Size = new System.Drawing.Size(109, 23);
             this.selectJsonButton.TabIndex = 0;
-            this.selectJsonButton.Text = "Select JSON";
+            this.selectJsonButton.Text = "Select Difficulty JSON";
             this.selectJsonButton.UseVisualStyleBackColor = true;
             this.selectJsonButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // selectJSONName
             // 
-            this.selectJSONName.Location = new System.Drawing.Point(122, 25);
+            this.selectJSONName.Location = new System.Drawing.Point(136, 25);
             this.selectJSONName.Name = "selectJSONName";
             this.selectJSONName.ReadOnly = true;
-            this.selectJSONName.Size = new System.Drawing.Size(283, 20);
+            this.selectJSONName.Size = new System.Drawing.Size(269, 20);
             this.selectJSONName.TabIndex = 1;
             // 
             // optionsPanel
@@ -238,6 +239,7 @@
             this.button2.Size = new System.Drawing.Size(23, 23);
             this.button2.TabIndex = 15;
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Visible = false;
             // 
             // LightMap
             // 

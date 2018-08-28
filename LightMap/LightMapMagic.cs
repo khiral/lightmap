@@ -61,6 +61,11 @@ namespace LightMap
                 CreateBigLights(beatMap, beatMapEvents);
             }
 
+            if (settings.ringSpins)
+            {
+                CreateRingSpins(beatMap, beatMapEvents);
+            }
+
             if (settings.noteConvert)
             {
                 ConvertNotes(beatMap, beatMapEvents);
@@ -101,19 +106,32 @@ namespace LightMap
                     {
                         outputEvents.Add(new BeatMapEvent(songIndex, 1, 5));
                         if (settings.bigLightFade && songIndex >= 1)
-                            outputEvents.Add(new BeatMapEvent(songIndex - 1, 1, 3));
+                            outputEvents.Add(new BeatMapEvent(songIndex - 2, 1, 3));
                     }
                     else
                     {
                         outputEvents.Add(new BeatMapEvent(songIndex, 1, 1));
                         if (settings.bigLightFade && songIndex >= 1)
-                            outputEvents.Add(new BeatMapEvent(songIndex - 1, 1, 7));
+                            outputEvents.Add(new BeatMapEvent(songIndex - 2, 1, 7));
                     }
                 }
 
                 flipFlop = !flipFlop;
-                if (settings.ringSpins)
-                    outputEvents.Add(new BeatMapEvent(songIndex, 8, 0));
+                //if (settings.ringSpins)
+                //    outputEvents.Add(new BeatMapEvent(songIndex, 8, 0));
+            }
+        }
+
+        private void CreateRingSpins(BeatMap beatMap, List<BeatMapEvent> outputEvents)
+        {
+            double songLength = beatMap.Notes.Max(note => note.Time);
+            double? marker = FindMarker(beatMap.Events);
+            if (!marker.HasValue)
+                return;
+
+            for (double songIndex = marker.Value; songIndex <= songLength; songIndex += settings.spawnSpeed)
+            {
+                outputEvents.Add(new BeatMapEvent(songIndex, 8, 0));
             }
         }
 
