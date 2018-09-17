@@ -184,7 +184,13 @@ namespace LightMap
 
         private void ConvertNotes(BeatMap beatMap, List<BeatMapEvent> outputEvents)
         {
-            foreach (var note in beatMap.Notes)
+            var notes = beatMap.Notes;
+            if (settings.noteConvertPrecise)
+            {
+                notes = FilterPreciseNotes(beatMap.Notes);
+            }
+
+            foreach (var note in notes)
             {
                 var tuple = CreateEvent(note.CutDirection, note.LineIndex);
                 outputEvents.Add(new BeatMapEvent(note.Time, tuple.Item1, tuple.Item2));
@@ -219,6 +225,28 @@ namespace LightMap
             }
 
             return Tuple.Create(eventType, eventValue);
+        }
+
+        private BeatMapNote[] FilterPreciseNotes(IEnumerable<BeatMapNote> notes)
+        {
+            const int decimalPlaces = 2;
+
+            var groups = notes
+                .GroupBy(n => GetDecimals(n.Time, decimalPlaces))
+                .OrderByDescending(g => g.Count())
+                .FirstOrDefault();
+
+            return groups.ToArray();
+        }
+
+        private int GetDecimals(double d, int decimalPlaces)
+        {
+            decimal decimals = (decimal)d % 1;
+            for (int i = 0; i < decimalPlaces; ++i)
+            {
+                decimals *= 10;
+            }
+            return (int)decimals;
         }
     }
 }

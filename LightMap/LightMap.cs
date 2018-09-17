@@ -184,6 +184,12 @@ namespace LightMap
         private void noteConvert_CheckedChanged(object sender, EventArgs e)
         {
             settings.noteConvert = noteConvert.Checked;
+
+            noteConvertPrecise.Enabled = settings.noteConvert;
+            if (!settings.noteConvert)
+            {
+                noteConvertPrecise.Checked = false;
+            }
         }
 
         private void noteConvertPrecise_CheckedChanged(object sender, EventArgs e)
