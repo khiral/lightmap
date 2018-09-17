@@ -114,7 +114,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="lightmap.ico" />
-    <Content Include="lightmap2.txt" />
     <None Include="Resources\settings.png" />
   </ItemGroup>
   <ItemGroup>
